@@ -48,9 +48,18 @@ public class InGameMenu : MonoBehaviour
         SceneManager.LoadScene("MainMenu");
     }
 
+    public void LoadHUB()
+    {
+        Debug.Log("Loading HUB");
+        SceneManager.LoadScene("HUB");
+        Time.timeScale = 1f; //unfreeze the game
+        GameIsPaused = false;
+        Cursor.lockState = CursorLockMode.Locked; //lock cursorLock after menu
+    }
+
     public void QuitGame()
     {
-        Debug.Log("quitting game from Hub");
+        Debug.Log("quitting game");
         Application.Quit();
     }
 
