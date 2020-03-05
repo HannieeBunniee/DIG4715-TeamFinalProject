@@ -2,6 +2,6 @@
 Discord: https://discord.gg/CjYY36
 DIG4715 Final Project
 Professor Kenton Taylor Howard
-Techs: Hanniee Tran, ----, ----
-Artists: Kaylie White, ----
-Coders: Joshua Bonilla, ----
+Techs: Hanniee Tran, Jediel Melendez, Ryan Witherow
+Artists: Kaylie White, Raymond Boysel
+Coders: Joshua Bonilla, Xavier Virt
