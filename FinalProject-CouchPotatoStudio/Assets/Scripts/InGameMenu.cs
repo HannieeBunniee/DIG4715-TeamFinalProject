@@ -31,6 +31,7 @@ public class InGameMenu : MonoBehaviour
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1f; //unfreeze the game
         GameIsPaused = false;
+        Cursor.lockState = CursorLockMode.Locked; //lock cursorLock after menu
     }
 
     void Pause()
@@ -38,11 +39,12 @@ public class InGameMenu : MonoBehaviour
         pauseMenuUI.SetActive(true);
         Time.timeScale = 0f; //freeze the game
         GameIsPaused = true;
+        Cursor.lockState = CursorLockMode.None; //unlock cursorLock so they can click buttons
     }
 
     public void LoadMainMenu()
     {
-        //Debug.Log("Loading Menu");
+        Debug.Log("Loading Main Menu");
         SceneManager.LoadScene("MainMenu");
     }
 
@@ -56,6 +58,7 @@ public class InGameMenu : MonoBehaviour
     {
         SceneManager.LoadScene("HUB");
         Time.timeScale = 1f; //unfreeze the game
+        Cursor.lockState = CursorLockMode.None; //unlock cursorLock so they can click buttons
     }
 
     public void optionMenu()

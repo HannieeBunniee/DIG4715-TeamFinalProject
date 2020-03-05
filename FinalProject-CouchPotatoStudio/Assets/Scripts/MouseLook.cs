@@ -4,19 +4,17 @@ using UnityEngine;
 
 public class MouseLook : MonoBehaviour
 {
-
     public float mouseSensitivity = 100f;
     public Transform playerBody;
 
     private float xRotation = 0f;
-    //private IngameMenu menuActive;
-
 
 
     // Start is called before the first frame update
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.visible = false; //setting cursor visible or not
+        Cursor.lockState = CursorLockMode.Locked; // freeze the cursor in middle of the screen so it wont move
     }
 
     // Update is called once per frame
