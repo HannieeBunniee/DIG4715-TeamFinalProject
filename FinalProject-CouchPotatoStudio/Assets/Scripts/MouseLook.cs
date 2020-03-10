@@ -26,11 +26,18 @@ public class MouseLook : MonoBehaviour
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
 
         xRotation += mouseY * PlayerPrefs.GetInt("InvertedY", -1);
-        xRotation = Mathf.Clamp(xRotation, -15, 90);
+        xRotation = Mathf.Clamp(xRotation, -60, 90);
         yRotation += mouseX * PlayerPrefs.GetInt("InvertedX", 1);
         yRotation %= 360;
 
         parent.localRotation = Quaternion.Euler(xRotation, yRotation, 0f);
         parent.position = player.transform.position - parent.forward * zoom + Vector3.up * 2;
+
+        RaycastHit hit;
+        Debug.DrawRay(player.position + Vector3.up * 2, parent.position - (player.position + Vector3.up * 2));
+        if (Physics.Raycast(new Ray(player.position + Vector3.up * 2, parent.position - (player.position + Vector3.up * 2)), out hit, zoom, 1 << 8))
+        {
+            parent.position = hit.point;
+        }
     }
 }
