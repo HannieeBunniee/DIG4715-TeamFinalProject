@@ -25,6 +25,6 @@ public class StagePanelUpdater : MonoBehaviour
         //the gamestatus script
         GameStatus gs = go.GetComponent<GameStatus>();
         GetComponent<Text>().text = "Stage Completed: " + gs.stageComplete;*/
-        GetComponent<Text>().text = "Stage Completed: " + GameStatus.stageComplete;
+        GetComponent<Text>().text = "stage testing (ignore this): " + GameStatus.stageComplete;
     }
 }
