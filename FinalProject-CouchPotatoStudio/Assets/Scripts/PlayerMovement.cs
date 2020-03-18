@@ -28,6 +28,10 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
         //========Moving code=============
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");

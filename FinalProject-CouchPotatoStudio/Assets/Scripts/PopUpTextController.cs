@@ -55,6 +55,8 @@ public class PopUpTextController : MonoBehaviour
             uiText.color = new Color(1, 1, 1, i);
             yield return new WaitForEndOfFrame();
         }
+        textPanel.color = new Color(0, 0, 0, 1);
+        uiText.color = new Color(1, 1, 1, 1);
         yield break;
     }
 
@@ -66,6 +68,8 @@ public class PopUpTextController : MonoBehaviour
             uiText.color = new Color(1, 1, 1, i);
             yield return new WaitForEndOfFrame();
         }
+        textPanel.color = new Color(0, 0, 0, 0);
+        uiText.color = new Color(1, 1, 1, 0);
         yield break;
     }
 }

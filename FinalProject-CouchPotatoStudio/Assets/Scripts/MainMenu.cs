@@ -13,6 +13,14 @@ public class MainMenu : MonoBehaviour
             continueButton.interactable = false;
         }
     }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
+    }
     //===Functions=====
     public void NewGame() //selecting this option should reset all non-settings PlayerPrefs (save data)
     {
