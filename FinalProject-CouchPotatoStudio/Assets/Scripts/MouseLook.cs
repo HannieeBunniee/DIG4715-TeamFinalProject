@@ -35,7 +35,7 @@ public class MouseLook : MonoBehaviour
 
         RaycastHit hit;
         Debug.DrawRay(player.position + Vector3.up * 2, parent.position - (player.position + Vector3.up * 2));
-        if (Physics.Raycast(new Ray(player.position + Vector3.up * 2, parent.position - (player.position + Vector3.up * 2)), out hit, zoom, 1 << 8))
+        if (Physics.Raycast(new Ray(player.position + Vector3.up * 2, parent.position - (player.position + Vector3.up * 2)), out hit, zoom, 1 << 8 | 1 << 9))
         {
             parent.position = hit.point;
         }
