@@ -17,15 +17,25 @@ public class PlayerMovement : MonoBehaviour
     public Transform groundCheck;
     public LayerMask groundMask;
     private Vector3 velocity;
+    public Vector3 lastSafePosition;
     private bool isGrounded, doubleJump = true;
-    private bool wallRunning, attacking = false;
+    private bool wallRunning = false;
     private float wallRunDelay;
     private Transform lastWallrun;
+    public float airTime = 0f;
 
+    public bool attacking = false;
+    public float comboTime = 0f;
+    private float attackCooldown = 0f;
+    private int comboState = 0;
+
+    //private Camera mainCam;
+
+    public Animator animator;
 
     void Start()
     {
-        
+        //mainCam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
     }
     // Update is called once per frame
     void Update()
@@ -63,15 +73,61 @@ public class PlayerMovement : MonoBehaviour
                 wallRunDelay = Time.time + 0.5f;
             }
         }
+        //attacking code
+        if (comboTime > Time.time)
+        {
+            x /= 1 + (comboTime - Time.time) * 3;
+            z /= 1 + (comboTime - Time.time) * 3;
+        }
+        if (comboTime < Time.time)
+        {
+            if (attacking)
+            {
+                attackCooldown = Time.time + 0.25f;
+            }
+            attacking = false;
+            comboState = 0;
+            animator.SetInteger("Attacking", 0);
+        }
+        if (Input.GetButtonDown("Attack") && attackCooldown < Time.time)
+        {
+            attacking = true;
+            animator.SetInteger("Attacking", comboState + 1);
+            if (comboState == 0)
+            {
+                comboState++;
+                comboTime = Time.time + 0.35f;
+            }
+            else if (comboState == 1)
+            {
+                comboTime += 0.35f;
+                comboState++;
+            }
+            else if (comboState == 2)
+            {
+                comboTime += 0.66f;
+                attackCooldown = Time.time + 0.75f;
+                comboState = 0;
+            }
+        }
+
         Vector3 move = transform.right * x + transform.forward * z;
         controller.Move(move * speed * Time.deltaTime);
 
         //========Jumping code============
         isGrounded = Physics.CheckBox(groundCheck.position, new Vector3(0.55f,0.1f, 0.55f), Quaternion.Euler(0,45,0), groundMask);
-        if ((isGrounded && velocity.y < 0) || wallRunning) //how far they can jump.. i think :P
+        if (isGrounded)
+        {
+            lastSafePosition = transform.position;
+        }
+        if ((isGrounded && velocity.y < 0) || wallRunning)
         {
             velocity.y = -2f;
             doubleJump = true;
+        }
+        if (airTime > Time.time)
+        {
+            velocity.y = -2f;
         }
         if (!wallRunning)
         {
@@ -85,14 +141,18 @@ public class PlayerMovement : MonoBehaviour
                 {
                     doubleJump = false;
                 }
+                airTime = 0f;
                 velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
             }
-            velocity.y += gravity * Time.deltaTime;
-            if (velocity.y < gravity) //cap the falling speed
+            if (airTime < Time.time)
             {
-                velocity.y = gravity;
+                velocity.y += gravity * Time.deltaTime;
+                if (velocity.y < gravity) //cap the falling speed
+                {
+                    velocity.y = gravity;
+                }
+                controller.Move(velocity * Time.deltaTime);
             }
-            controller.Move(velocity * Time.deltaTime);
         }
         else
         {
@@ -100,6 +160,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 wallRunning = false;
                 wallRunDelay = Time.time + 0.25f;
+                airTime = 0f;
                 velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
                 velocity += transform.right * (jumpHeight * -5 * Mathf.Sign(transform.InverseTransformPoint(lastWallrun.position).x));
             }
@@ -125,6 +186,10 @@ public class PlayerMovement : MonoBehaviour
 
     void OnTriggerEnter(Collider collider)
     {
+        if (collider.CompareTag("Attack"))
+        {
+            return;
+        }
         if (collider.CompareTag("Wallrun") && !wallRunning && wallRunDelay < Time.time)
         {
             if (lastWallrun != null)
