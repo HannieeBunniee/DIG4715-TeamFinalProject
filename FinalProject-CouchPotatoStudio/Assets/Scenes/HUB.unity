@@ -2666,6 +2666,7 @@ GameObject:
   m_Component:
   - component: {fileID: 862950259}
   - component: {fileID: 862950258}
+  - component: {fileID: 862950261}
   - component: {fileID: 862950257}
   - component: {fileID: 862950260}
   m_Layer: 0
@@ -2753,6 +2754,21 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &862950261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 862950256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f45381b8d9bf5740bc87373c908e968, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveDirection: {x: 0, y: 0, z: 0}
+  dashDistance: 10
+  dashStoppingSpeed: 0.1
 --- !u!1 &893819834
 GameObject:
   m_ObjectHideFlags: 0
