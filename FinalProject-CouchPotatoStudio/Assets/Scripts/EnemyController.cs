@@ -34,10 +34,24 @@ public class EnemyController : MonoBehaviour
     {
         if (collider.CompareTag("Attack") && player.attacking && damageDelay < Time.time)
         {
-            Debug.Log("2");
             health--;
             damageDelay = player.comboTime + 0.1f;
-            player.airTime = player.comboTime;
+            player.airTime = player.comboTime + 0.25f;
         }
+    }
+    void OnTriggerEnter(Collider collider)
+    {
+        if (collider.CompareTag("Attack") && player.dashing && damageDelay < Time.time)
+        {
+            StartCoroutine(DelayedDamage());
+            damageDelay = Time.time + 0.1f;
+        }
+    }
+
+    IEnumerator DelayedDamage() //wait to deal damage from a dash to prevent enemy from dying before dash ends and throwing an error
+    {
+        yield return new WaitForSeconds(0.25f);
+        health--;
+        yield break;
     }
 }

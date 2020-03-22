@@ -29,13 +29,18 @@ public class PlayerMovement : MonoBehaviour
     private float attackCooldown = 0f;
     private int comboState = 0;
 
-    //private Camera mainCam;
+    public bool dashing = false;
+    private int dashRetargetCooldown = 1;
+    private Camera mainCam;
+    private GameObject dashTarget;
+    public UnityEngine.UI.Image dashReticle;
+    public GameObject dashHitbox;
 
     public Animator animator;
 
     void Start()
     {
-        //mainCam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+        mainCam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
     }
     // Update is called once per frame
     void Update()
@@ -44,9 +49,60 @@ public class PlayerMovement : MonoBehaviour
         {
             Application.Quit();
         }
+
+        //dashing code
+        if(dashRetargetCooldown == 0 && !dashing) //code to find a new dash target
+        {
+            dashTarget = FindDashTarget();
+            dashRetargetCooldown++;
+        }
+        else if (dashRetargetCooldown < 9) //only check for a new dash target every 10 frames to improve performance
+        {
+            dashRetargetCooldown++;
+        }
+        else
+        {
+            dashRetargetCooldown = 0;
+        }
+
+        if (Input.GetButtonDown("Dash") && dashTarget != null && !wallRunning)
+        {
+            dashing = true;
+            dashHitbox.SetActive(true);
+            transform.rotation = Quaternion.LookRotation(dashTarget.transform.position - transform.position);
+            transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
+        }
+        if (dashing)
+        {
+            if (Vector3.Distance(transform.position, dashTarget.transform.position) <= dashTarget.GetComponent<DashTarget>().stopRadius)
+            {
+                dashHitbox.SetActive(false);
+                dashTarget.GetComponent<DashTarget>().cooldown = Time.time + 2.5f;
+                dashTarget = null;
+                dashReticle.color = new Color(1, 1, 1, 0);
+                dashing = false;
+                airTime = Time.time + 0.25f;
+            }
+            if (dashing)
+            {
+                Vector3 dashDirection = dashTarget.transform.position - transform.position;
+                controller.Move(Vector3.Normalize(dashDirection) * speed * 5 * Time.deltaTime);
+            }
+        }
+
         //========Moving code=============
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
+
+        if (dashing) //if the player is dashing they cannot move until the dash is finished
+        {
+            x = 0;
+            z = 0;
+        }
+        if (x != 0 || z != 0) // if the player moves they will stop floating
+        {
+            airTime = 0f;
+        }
 
         if (wallRunning && wallRunDelay < Time.time) //if the player has not moved for more than half a second on a wall they will stop wallrunning
         {
@@ -54,8 +110,8 @@ public class PlayerMovement : MonoBehaviour
             wallRunDelay = Time.time + 0.5f;
         }
 
-        //rotate the player to the same direction as the camera when they move if they are not wallrunning
-        if ((Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0) && !wallRunning)
+        //rotate the player to the same direction as the camera when they move if they are not wallrunning or dashing
+        if ((Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0) && !wallRunning && !dashing)
         {
             transform.localRotation = Quaternion.Euler(0, mainCamera.transform.parent.localRotation.eulerAngles.y, 0);
         }
@@ -89,7 +145,7 @@ public class PlayerMovement : MonoBehaviour
             comboState = 0;
             animator.SetInteger("Attacking", 0);
         }
-        if (Input.GetButtonDown("Attack") && attackCooldown < Time.time)
+        if (Input.GetButtonDown("Attack") && attackCooldown < Time.time && !dashing && !wallRunning)
         {
             attacking = true;
             animator.SetInteger("Attacking", comboState + 1);
@@ -125,11 +181,11 @@ public class PlayerMovement : MonoBehaviour
             velocity.y = -2f;
             doubleJump = true;
         }
-        if (airTime > Time.time)
+        if (airTime > Time.time || dashing)
         {
             velocity.y = -2f;
         }
-        if (!wallRunning)
+        if (!wallRunning && !dashing)
         {
             if (Input.GetButtonDown("Jump") && (isGrounded || doubleJump)) //code for jump
             {
@@ -154,7 +210,7 @@ public class PlayerMovement : MonoBehaviour
                 controller.Move(velocity * Time.deltaTime);
             }
         }
-        else
+        else if (!dashing)
         {
             if (Input.GetButtonDown("Jump")) //wall jump
             {
@@ -181,6 +237,15 @@ public class PlayerMovement : MonoBehaviour
             {
                 velocity.z = 0;
             }
+        }
+    }
+
+    void LateUpdate()
+    {
+        if (dashTarget != null)
+        {
+            Vector3 screenPosition = mainCam.WorldToScreenPoint(dashTarget.transform.position);
+            dashReticle.transform.position = new Vector3(screenPosition.x, screenPosition.y, 0);
         }
     }
 
@@ -223,5 +288,77 @@ public class PlayerMovement : MonoBehaviour
             wallRunning = false;
             wallRunDelay = Time.time + 0.25f;
         }
+    }
+
+    GameObject FindDashTarget()
+    {
+        GameObject potentialTarget = null;
+        bool currentTargetOnScreen = false;
+        List<DashTarget> targetsOnScreen = new List<DashTarget>();
+        DashTarget[] allTargets = GameObject.FindObjectsOfType<DashTarget>();
+        if (allTargets.Length == 0)
+        {
+            return null;
+        }
+        foreach (DashTarget target in allTargets)
+        {
+            Vector3 screenPoint = mainCam.WorldToViewportPoint(target.transform.position);
+            if (screenPoint.x > 0.3f && screenPoint.x < 0.7f && screenPoint.y > 0.35f && screenPoint.y < 0.65f && screenPoint.z > 0 && target.cooldown < Time.time)
+            {
+                targetsOnScreen.Add(target);
+            }
+            else if (target == dashTarget && screenPoint.x > 0.25f && screenPoint.x < 0.75f && screenPoint.y > 0.3f && screenPoint.y < 0.7f && screenPoint.z > 0 && target.cooldown < Time.time)
+            {
+                targetsOnScreen.Add(target);
+            }
+        }
+        if (allTargets.Length == 0)
+        {
+            return null;
+        }
+        float bestDistance = 25f;
+        foreach (DashTarget target in targetsOnScreen)
+        {
+            if (target == dashTarget)
+            {
+                currentTargetOnScreen = true;
+            }
+            float distance = Vector3.Distance(transform.position, target.transform.position);
+            if (distance > target.stopRadius * 2f && distance < 25f)
+            {
+                if (distance < bestDistance)
+                {
+                    bestDistance = distance;
+                    potentialTarget = target.gameObject;
+                }
+            }
+        }
+        if (currentTargetOnScreen && potentialTarget != dashTarget)
+        {
+            if (Vector3.Distance(transform.position,potentialTarget.transform.position) > Vector3.Distance(transform.position, dashTarget.transform.position) - 2)
+            {
+                potentialTarget = dashTarget;
+            }
+        }
+        if (potentialTarget != dashTarget)
+        {
+            dashReticle.color = new Color(1, 1, 1, 0);
+            StopAllCoroutines();
+            if (potentialTarget != null)
+            {
+                StartCoroutine(FadeInReticle());
+            }
+        }
+        return potentialTarget;
+    }
+
+    IEnumerator FadeInReticle()
+    {
+        for (int i = 1; i < 21; i++)
+        {
+            dashReticle.color = new Color(1, 1, 1, i * 0.05f);
+            yield return new WaitForEndOfFrame();
+        }
+        yield break;
     }
 }

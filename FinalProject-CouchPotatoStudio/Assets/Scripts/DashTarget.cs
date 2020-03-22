@@ -5,7 +5,7 @@ using UnityEngine;
 public class DashTarget : MonoBehaviour
 {
     public float stopRadius = 2f;
-    private float cooldown = 0f;
+    public float cooldown = 0f;
     // Start is called before the first frame update
     void Start()
     {
