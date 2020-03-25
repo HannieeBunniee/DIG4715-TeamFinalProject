@@ -524,7 +524,7 @@ ScriptsOnlyBuild:
     className: Mask
   - hash:
       serializedVersion: 2
-      Hash: 92adf7f667f4981071f705cd3d95a8ac
+      Hash: 3c24fff9af557c1f02c5728a0d6029b8
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: DashTarget
@@ -584,7 +584,7 @@ ScriptsOnlyBuild:
     className: SignalTrack
   - hash:
       serializedVersion: 2
-      Hash: 0a7096ff477c150c7989c3d353e64266
+      Hash: be94967cf7da774e4a8eec7c33eae02d
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PlayerMovement
@@ -841,4 +841,4 @@ ScriptsOnlyBuild:
   - Assets/Scenes/Stage1.unity
   - Assets/Scenes/Stage2.unity
   - Assets/Scenes/Stage3.unity
-  playerPath: C:/Users/Gerald/Documents/Github/DIG4715-TeamFinalProject/Build/FinalProject-CouchPotato.exe
+  playerPath: C:/Users/Kaylie/Desktop/DIG4715-TeamFinalProject/FinalProject-CouchPotatoStudio/Builds/FinalProject-CouchPotato.exe
