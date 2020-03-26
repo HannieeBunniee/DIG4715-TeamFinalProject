@@ -18,7 +18,6 @@ ScriptsOnlyBuild:
     - UnityEditor.Graphs.AnimatorControllerTool
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
-    - UnityEditor.TestTools.TestRunner.TestListCacheData
     UnityEngine.UI.dll:
     - UnityEngine.EventSystems.EventSystem
     - UnityEngine.EventSystems.StandaloneInputModule
@@ -841,4 +840,4 @@ ScriptsOnlyBuild:
   - Assets/Scenes/Stage1.unity
   - Assets/Scenes/Stage2.unity
   - Assets/Scenes/Stage3.unity
-  playerPath: C:/Users/Kaylie/Desktop/DIG4715-TeamFinalProject/FinalProject-CouchPotatoStudio/Builds/FinalProject-CouchPotato.exe
+  playerPath: D:/Documents/Githubs/DIG4715-TeamFinalProject/FinalProject-CouchPotatoStudio/Build/FinalProject-CouchPotato.exe
