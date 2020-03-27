@@ -34,6 +34,7 @@ public class PauseController : MonoBehaviour
         optionUI.SetActive(false);
         Time.timeScale = 1f; //unfreeze the game
         Paused = false;
+        Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked; //lock cursorLock after menu
     }
 
@@ -45,12 +46,14 @@ public class PauseController : MonoBehaviour
         pauseMenuUI.SetActive(true);
         Time.timeScale = 0f; //freeze the game
         Paused = true;
+        Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None; //unlock cursorLock so they can click buttons
     }
 
     public void LoadMainMenu()
     {
         Debug.Log("Loading Main Menu");
+        Cursor.visible = true;
         SceneManager.LoadScene("MainMenu");
     }
 

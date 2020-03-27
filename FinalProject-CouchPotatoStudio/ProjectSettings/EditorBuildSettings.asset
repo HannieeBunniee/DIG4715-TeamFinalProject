@@ -11,13 +11,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/HUB.unity
     guid: 1b394e6bf8a8fed468cd97962d63477a
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Stage1.unity
     guid: b57fecabfd5a6fc4db19feadd734fc54
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Stage2.unity
     guid: 5b7aa2c4c543cb64fa09e446ad40c577
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Stage3.unity
     guid: 2b6df21ff102b6f4e8ac9c16abc062fd
   - enabled: 0

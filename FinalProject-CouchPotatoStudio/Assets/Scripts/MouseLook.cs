@@ -15,13 +15,14 @@ public class MouseLook : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //Cursor.visible = false; //setting cursor visible or not
+        Cursor.visible = false; //setting cursor visible or not
         Cursor.lockState = CursorLockMode.Locked; // freeze the cursor in middle of the screen so it wont move
     }
 
     // Update is called once per frame
     void LateUpdate()
     {
+        //get the mouse movement for the frame
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
 
@@ -38,6 +39,7 @@ public class MouseLook : MonoBehaviour
         if (Physics.Raycast(new Ray(player.position + Vector3.up * 2, parent.position - (player.position + Vector3.up * 2)), out hit, zoom, 1 << 8 | 1 << 9))
         {
             parent.position = hit.point;
+            parent.position += parent.forward * 0.25f;
         }
     }
 }

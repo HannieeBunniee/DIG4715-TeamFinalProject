@@ -24,6 +24,10 @@ public class PlayerMovement : MonoBehaviour
     private Transform lastWallrun;
     public float airTime = 0f;
 
+    public Terrain terrain; //terrain object for the level, must be manually assigned
+    private bool touchingTerrain; //bool that should be active if the player is touching terrain
+    private float slideTime;
+
     public bool attacking = false;
     public float comboTime = 0f;
     private float attackCooldown = 0f;
@@ -171,7 +175,20 @@ public class PlayerMovement : MonoBehaviour
         controller.Move(move * speed * Time.deltaTime);
 
         //========Jumping code============
-        isGrounded = Physics.CheckBox(groundCheck.position, new Vector3(0.55f,0.1f, 0.55f), Quaternion.Euler(0,45,0), groundMask);
+        isGrounded = Physics.CheckBox(groundCheck.position, new Vector3(0.5f, 0.1f, 0.5f), Quaternion.Euler(0,45,0), groundMask);
+        if (touchingTerrain || slideTime > Time.time && !wallRunning) //if the player has touched terrain this checks if they are on a steep slope and makes them slide down if they are, as well as disabling their jumps
+        {
+            float slope = terrain.terrainData.GetSteepness((transform.position.x - terrain.transform.position.x) / terrain.terrainData.size.x, (transform.position.z - terrain.transform.position.z) / terrain.terrainData.size.z);
+            if (slope > 45)
+            {
+                isGrounded = false;
+                doubleJump = false;
+                Vector3 slideDirection = terrain.terrainData.GetInterpolatedNormal((transform.position.x - terrain.transform.position.x) / terrain.terrainData.size.x, (transform.position.z - terrain.transform.position.z) / terrain.terrainData.size.z);
+                slideDirection.y = 0;
+                controller.Move(slideDirection * Time.deltaTime);
+                slideTime = Time.time + 0.05f;
+            }
+        }
         if (isGrounded)
         {
             lastSafePosition = transform.position;
@@ -360,5 +377,35 @@ public class PlayerMovement : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
         yield break;
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.gameObject == terrain.gameObject)
+        {
+            touchingTerrain = true;
+        }
+    }
+
+    void OnCollisionExit(Collision collision)
+    {
+        if (collision.collider.gameObject == terrain.gameObject)
+        {
+            touchingTerrain = false;
+        }
+    }
+
+    void OnControllerColliderHit(ControllerColliderHit hit) //possible fix for player sticking to walls with steep angles; objects must be in the "wall" layer
+    {
+        if (hit.collider.gameObject.layer == 9)
+        {
+            float slope = Vector3.Angle(Vector3.up, hit.normal);
+            if (slope > 45 && slope <= 90 && velocity.y < 0)
+            {
+                Vector3 slideDirection = hit.normal;
+                slideDirection.y = 0;
+                controller.Move(slideDirection.normalized * Time.deltaTime);
+            }
+        }
     }
 }
