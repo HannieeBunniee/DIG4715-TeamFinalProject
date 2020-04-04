@@ -10,6 +10,13 @@ public class StageLoader : MonoBehaviour
     public int currentStage = 0; //the current stage
     public bool stageComplete = false; //if the current stage has been successfully completed
 
+    public GameObject charmCollected;
+
+    private void Start()
+    {
+        charmCollected.SetActive(false);
+    }
+
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -39,6 +46,8 @@ public class StageLoader : MonoBehaviour
         switch (destination) //load the destination level
         {
             case 0:
+                charmCollected.SetActive(true);
+                // need a cold to make it wait for a bit before teleport player, or dont teleport player and let them select?
                 SceneManager.LoadScene("HUB");
                 break;
             case 1:
