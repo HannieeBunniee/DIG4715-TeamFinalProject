@@ -40,6 +40,9 @@ public class PlayerMovement : MonoBehaviour
     public UnityEngine.UI.Image dashReticle;
     public GameObject dashHitbox;
 
+	public AudioSource musicSource;
+	public AudioClip SwordSlashAudio;
+    public AudioClip DashAttackAudio;
     public Animator animator;
 
     void Start()
@@ -75,6 +78,8 @@ public class PlayerMovement : MonoBehaviour
             dashHitbox.SetActive(true);
             transform.rotation = Quaternion.LookRotation(dashTarget.transform.position - transform.position);
             transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
+			musicSource.clip = DashAttackAudio;
+			musicSource.Play();
         }
         if (dashing)
         {
@@ -169,6 +174,8 @@ public class PlayerMovement : MonoBehaviour
                 attackCooldown = Time.time + 0.75f;
                 comboState = 0;
             }
+			musicSource.clip = SwordSlashAudio;
+			musicSource.Play();
         }
 
         Vector3 move = transform.right * x + transform.forward * z;
