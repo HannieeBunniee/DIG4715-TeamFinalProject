@@ -381,7 +381,7 @@ public class PlayerMovement : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.gameObject == terrain.gameObject)
+        if (terrain != null && collision.collider.gameObject == terrain.gameObject)
         {
             touchingTerrain = true;
         }
@@ -389,7 +389,7 @@ public class PlayerMovement : MonoBehaviour
 
     void OnCollisionExit(Collision collision)
     {
-        if (collision.collider.gameObject == terrain.gameObject)
+        if (terrain != null && collision.collider.gameObject == terrain.gameObject)
         {
             touchingTerrain = false;
         }
