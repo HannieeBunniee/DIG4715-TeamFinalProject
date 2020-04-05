@@ -1,20 +1,27 @@
 ScriptsOnlyBuild:
   usedScripts:
     Assembly-CSharp.dll:
+    - Billboard
+    - BounceMushroom
     - DashTarget
-    - EnemyController
-    - MainMenu
+    - HealthBar
+    - HealthManager
+    - KeyItem
     - MouseLook
+    - OptionsController
     - PauseController
-    - PitController
     - PlayerMovement
+    - PlayerSoundManager
     - PopUpTextController
+    - Stage1ProgressManager
     - StageLoader
     UnityEditor.Graphs.dll:
     - UnityEditor.Graphs.AnimationBlendTree.Graph
     - UnityEditor.Graphs.AnimationBlendTree.GraphGUI
+    - UnityEditor.Graphs.AnimationStateMachine.AnyStateNode
     - UnityEditor.Graphs.AnimationStateMachine.Graph
     - UnityEditor.Graphs.AnimationStateMachine.GraphGUI
+    - UnityEditor.Graphs.AnimationStateMachine.StateNode
     - UnityEditor.Graphs.AnimatorControllerTool
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
@@ -26,9 +33,11 @@ ScriptsOnlyBuild:
     - UnityEngine.UI.CanvasScaler
     - UnityEngine.UI.GraphicRaycaster
     - UnityEngine.UI.Image
+    - UnityEngine.UI.Slider
     - UnityEngine.UI.Text
+    - UnityEngine.UI.Toggle
   sceneClasses:
-    Assets/Scenes/HUB.unity:
+    Assets/Scenes/Stage1.unity:
     - Class: 1
       Script: {instanceID: 0}
     - Class: 4
@@ -57,6 +66,12 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 81
       Script: {instanceID: 0}
+    - Class: 82
+      Script: {instanceID: 0}
+    - Class: 83
+      Script: {instanceID: 0}
+    - Class: 90
+      Script: {instanceID: 0}
     - Class: 91
       Script: {instanceID: 0}
     - Class: 95
@@ -68,33 +83,49 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 9674}
     - Class: 114
-      Script: {instanceID: 9822}
+      Script: {instanceID: 9824}
     - Class: 114
-      Script: {instanceID: 9862}
+      Script: {instanceID: 9864}
     - Class: 114
-      Script: {instanceID: 10044}
+      Script: {instanceID: 10046}
     - Class: 114
-      Script: {instanceID: 10164}
+      Script: {instanceID: 10166}
     - Class: 114
-      Script: {instanceID: 10234}
+      Script: {instanceID: 10236}
     - Class: 114
-      Script: {instanceID: 10464}
+      Script: {instanceID: 10468}
     - Class: 114
-      Script: {instanceID: 10502}
+      Script: {instanceID: 10506}
     - Class: 114
-      Script: {instanceID: 10508}
+      Script: {instanceID: 10512}
     - Class: 114
-      Script: {instanceID: 10578}
+      Script: {instanceID: 10582}
     - Class: 114
-      Script: {instanceID: 10658}
+      Script: {instanceID: 10662}
     - Class: 114
-      Script: {instanceID: 11020}
+      Script: {instanceID: 11024}
     - Class: 114
-      Script: {instanceID: 11184}
+      Script: {instanceID: 11058}
     - Class: 114
-      Script: {instanceID: 11292}
+      Script: {instanceID: 11084}
     - Class: 114
-      Script: {instanceID: 11366}
+      Script: {instanceID: 11374}
+    - Class: 114
+      Script: {instanceID: 11388}
+    - Class: 114
+      Script: {instanceID: 11406}
+    - Class: 114
+      Script: {instanceID: 113952}
+    - Class: 114
+      Script: {instanceID: 201458}
+    - Class: 114
+      Script: {instanceID: 289300}
+    - Class: 114
+      Script: {instanceID: 289306}
+    - Class: 114
+      Script: {instanceID: 304508}
+    - Class: 114
+      Script: {instanceID: 348878}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -103,6 +134,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 136
       Script: {instanceID: 0}
+    - Class: 137
+      Script: {instanceID: 0}
     - Class: 143
       Script: {instanceID: 0}
     - Class: 154
@@ -110,6 +143,12 @@ ScriptsOnlyBuild:
     - Class: 156
       Script: {instanceID: 0}
     - Class: 157
+      Script: {instanceID: 0}
+    - Class: 198
+      Script: {instanceID: 0}
+    - Class: 199
+      Script: {instanceID: 0}
+    - Class: 212
       Script: {instanceID: 0}
     - Class: 213
       Script: {instanceID: 0}
@@ -121,58 +160,11 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 224
       Script: {instanceID: 0}
-    - Class: 1953259897
+    - Class: 241
       Script: {instanceID: 0}
-    Assets/Scenes/MainMenu.unity:
-    - Class: 1
+    - Class: 243
       Script: {instanceID: 0}
-    - Class: 4
-      Script: {instanceID: 0}
-    - Class: 20
-      Script: {instanceID: 0}
-    - Class: 21
-      Script: {instanceID: 0}
-    - Class: 28
-      Script: {instanceID: 0}
-    - Class: 48
-      Script: {instanceID: 0}
-    - Class: 81
-      Script: {instanceID: 0}
-    - Class: 89
-      Script: {instanceID: 0}
-    - Class: 104
-      Script: {instanceID: 0}
-    - Class: 108
-      Script: {instanceID: 0}
-    - Class: 114
-      Script: {instanceID: 9674}
-    - Class: 114
-      Script: {instanceID: 9822}
-    - Class: 114
-      Script: {instanceID: 9862}
-    - Class: 114
-      Script: {instanceID: 10234}
-    - Class: 114
-      Script: {instanceID: 10578}
-    - Class: 114
-      Script: {instanceID: 11020}
-    - Class: 114
-      Script: {instanceID: 11068}
-    - Class: 114
-      Script: {instanceID: 11366}
-    - Class: 115
-      Script: {instanceID: 0}
-    - Class: 128
-      Script: {instanceID: 0}
-    - Class: 157
-      Script: {instanceID: 0}
-    - Class: 222
-      Script: {instanceID: 0}
-    - Class: 223
-      Script: {instanceID: 0}
-    - Class: 224
-      Script: {instanceID: 0}
-    - Class: 258
+    - Class: 245
       Script: {instanceID: 0}
   scriptHashData:
   - hash:
@@ -393,7 +385,7 @@ ScriptsOnlyBuild:
     className: SignalTrack
   - hash:
       serializedVersion: 2
-      Hash: 202da0921dac05dfc7c5aa8574137181
+      Hash: 7a2157879b984e09c2415bfbd350b243
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PlayerMovement
@@ -525,10 +517,22 @@ ScriptsOnlyBuild:
     className: BeforeAfterTestCommandState
   - hash:
       serializedVersion: 2
-      Hash: 2e442a2d8cf4f79563185c2f53710b2d
+      Hash: 5ededbd6d27993b7e28eb1273e9f6146
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: HealthManager
+  - hash:
+      serializedVersion: 2
+      Hash: db1cd1fb10c80019eea77eb3ecd0e530
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: MainMenu
+  - hash:
+      serializedVersion: 2
+      Hash: e003b6e06f4347ed24a1d045e6862c26
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: HealthBar
   - hash:
       serializedVersion: 2
       Hash: c3d3430df9e3ea95e3e3d587961390fb
@@ -543,7 +547,7 @@ ScriptsOnlyBuild:
     className: TMP_StyleSheet
   - hash:
       serializedVersion: 2
-      Hash: c7a1cfbcd815f35b6700d8538ef4094e
+      Hash: d1eab6afb1a799bac2d929687e381d2f
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: EnemyController
@@ -643,8 +647,43 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: PlayableTrack
+  - hash:
+      serializedVersion: 2
+      Hash: c76a3e9efb7c4861d4b87b37b21c8012
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: OptionsController
+  - hash:
+      serializedVersion: 2
+      Hash: 732e454633b73713460cfa73e9034d91
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: PlayerSoundManager
+  - hash:
+      serializedVersion: 2
+      Hash: cc88477598b0a74eeae24f0ec5f1311d
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Stage1ProgressManager
+  - hash:
+      serializedVersion: 2
+      Hash: 1a286079cf1647bc90669bb8cf035be6
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: KeyItem
+  - hash:
+      serializedVersion: 2
+      Hash: 9ea620ca73a1d78591f5932425e3cd2e
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: BounceMushroom
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Billboard
   platform: 19
   scenePathNames:
-  - Assets/Scenes/MainMenu.unity
-  - Assets/Scenes/HUB.unity
+  - Assets/Scenes/Stage1.unity
   playerPath: C:/Users/Gerald/Documents/Github/DIG4715-TeamFinalProject/FinalProject-CouchPotatoStudio/Build/FinalProject-CouchPotato.exe

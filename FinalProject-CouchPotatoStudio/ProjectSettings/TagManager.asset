@@ -8,6 +8,7 @@ TagManager:
   - KeyItem
   - Wallrun
   - Attack
+  - Enemy
   layers:
   - Default
   - TransparentFX
