@@ -5,6 +5,7 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour
 {
     public int health = 3;
+    public int contactDamage = 0;
     private float damageDelay = 0f;
     private PlayerMovement player;
     
