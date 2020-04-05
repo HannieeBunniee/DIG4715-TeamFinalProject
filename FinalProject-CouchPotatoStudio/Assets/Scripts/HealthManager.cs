@@ -9,9 +9,9 @@ public class HealthManager : MonoBehaviour
 
     public HealthBar healthBar;
 
-    public GameObject loseScreen, winScreen, gameUI;
+    public GameObject loseScreen;
+    public GameObject winScreen;
     private bool death = false;
-    private float iFrames;
 
     //====Start====
     void Start()
@@ -30,11 +30,9 @@ public class HealthManager : MonoBehaviour
         }
         if(Input.GetKeyDown(KeyCode.H))
         {
-            Time.timeScale = 0f;
-            PauseController.Paused = true;
+            Time.timeScale = 0f; //freeze the game //THIS FREEZE THE GAME BUT WONT UNFREEZE IT WHEN PRESSED RESTART
             Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
-            gameUI.SetActive(false);
+            Cursor.lockState = CursorLockMode.None; //unlock cursorLock so they can click buttons
             winScreen.SetActive(true);
         }
 
@@ -42,11 +40,10 @@ public class HealthManager : MonoBehaviour
         if (!death && currentHealth == 0)
         {
             death = true;
-            PauseController.Paused = true;
-            Time.timeScale = 0f;
+            Time.timeScale = 0f; //freeze the game //THIS FREEZE THE GAME BUT WONT UNFREEZE IT WHEN PRESSED RESTART
             Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
-            gameUI.SetActive(false);
+            Cursor.lockState = CursorLockMode.None; //unlock cursorLock so they can click buttons
+            //Destroy(gameObject); //change this later on pls, this will break the game cuz it destroy the whole script folder
             loseScreen.SetActive(true);
         }
     }
@@ -56,30 +53,5 @@ public class HealthManager : MonoBehaviour
     {
         currentHealth -= damage;
         healthBar.SetPlayerHealth(currentHealth);
-        iFrames = Time.time + 0.25f;
-    }
-
-    void OnTriggerEnter(Collider collider)
-    {
-        if (iFrames < Time.time && collider.CompareTag("Enemy"))
-        {
-            int damage = collider.gameObject.GetComponent<EnemyController>().contactDamage;
-            if (damage > 0)
-            {
-                TakeDamage(damage);
-            }
-        }
-    }
-
-    void OnCollisionEnter(Collision collision)
-    {
-        if (iFrames < Time.time && collision.collider.CompareTag("Enemy"))
-        {
-            int damage = collision.collider.gameObject.GetComponent<EnemyController>().contactDamage;
-            if (damage > 0)
-            {
-                TakeDamage(damage);
-            }
-        }
     }
 }

@@ -16,7 +16,7 @@ public class PlayerMovement : MonoBehaviour
 
     public Transform groundCheck;
     public LayerMask groundMask;
-    public Vector3 velocity;
+    private Vector3 velocity;
     public Vector3 lastSafePosition;
     private bool isGrounded, doubleJump = true;
     private bool wallRunning = false;
@@ -40,13 +40,14 @@ public class PlayerMovement : MonoBehaviour
     public UnityEngine.UI.Image dashReticle;
     public GameObject dashHitbox;
 
+	public AudioSource musicSource;
+	public AudioClip SwordSlashAudio;
+    public AudioClip DashAttackAudio;
     public Animator animator;
-    private PlayerSoundManager soundMan;
 
     void Start()
     {
         mainCam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
-        soundMan = GetComponent<PlayerSoundManager>();
     }
     // Update is called once per frame
     void Update()
@@ -54,11 +55,6 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Application.Quit();
-        }
-
-        if (PauseController.Paused)
-        {
-            return; //the player can't do anything if the game is paused
         }
 
         //dashing code
@@ -80,10 +76,10 @@ public class PlayerMovement : MonoBehaviour
         {
             dashing = true;
             dashHitbox.SetActive(true);
-            soundMan.PlaySwordSound(true);
-            soundMan.PlayEffortSound(1);
             transform.rotation = Quaternion.LookRotation(dashTarget.transform.position - transform.position);
             transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
+			musicSource.clip = DashAttackAudio;
+			musicSource.Play();
         }
         if (dashing)
         {
@@ -94,7 +90,7 @@ public class PlayerMovement : MonoBehaviour
                 dashTarget = null;
                 dashReticle.color = new Color(1, 1, 1, 0);
                 dashing = false;
-                airTime = Time.time + 0.25f + PlayerPrefs.GetInt("EasyDash", 0);
+                airTime = Time.time + 0.25f;
             }
             if (dashing)
             {
@@ -162,8 +158,6 @@ public class PlayerMovement : MonoBehaviour
         {
             attacking = true;
             animator.SetInteger("Attacking", comboState + 1);
-            soundMan.PlayEffortSound(2);
-            soundMan.PlaySwordSound(false);
             if (comboState == 0)
             {
                 comboState++;
@@ -180,6 +174,8 @@ public class PlayerMovement : MonoBehaviour
                 attackCooldown = Time.time + 0.75f;
                 comboState = 0;
             }
+			musicSource.clip = SwordSlashAudio;
+			musicSource.Play();
         }
 
         Vector3 move = transform.right * x + transform.forward * z;
@@ -217,7 +213,6 @@ public class PlayerMovement : MonoBehaviour
         {
             if (Input.GetButtonDown("Jump") && (isGrounded || doubleJump)) //code for jump
             {
-                soundMan.PlayEffortSound(0);
                 if (isGrounded) //use the first jump
                 {
                     isGrounded = false;
@@ -243,7 +238,6 @@ public class PlayerMovement : MonoBehaviour
         {
             if (Input.GetButtonDown("Jump")) //wall jump
             {
-                soundMan.PlayEffortSound(0);
                 wallRunning = false;
                 wallRunDelay = Time.time + 0.25f;
                 airTime = 0f;
