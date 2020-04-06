@@ -315,7 +315,7 @@ Transform:
   - {fileID: 114131029}
   - {fileID: 1300894234}
   - {fileID: 1758592313}
-  - {fileID: 2022660391}
+  - {fileID: 2071301848}
   - {fileID: 804075977}
   - {fileID: 1247976840}
   - {fileID: 837891634}
@@ -54105,12 +54105,6 @@ MonoBehaviour:
   destination: 3
   currentStage: 0
   stageComplete: 0
---- !u!4 &2022660391 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: 07f4f441507c60e4ba4618ad482b50d9,
-    type: 3}
-  m_PrefabInstance: {fileID: 2071301847}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2024308656
 GameObject:
   m_ObjectHideFlags: 0
@@ -54594,6 +54588,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 07f4f441507c60e4ba4618ad482b50d9, type: 3}
+--- !u!4 &2071301848 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 2071301847}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2073793117
 GameObject:
   m_ObjectHideFlags: 0

@@ -46,4 +46,10 @@ public class MainMenu : MonoBehaviour
         Debug.Log("Quitting From Main");
         Application.Quit();
     }
+
+    public void LoadStage()
+    {
+        Time.timeScale = 1f; //unfreeze the game (incase they decided to play AFTER going main menu from pause menu)
+        SceneManager.LoadScene("Stage1");
+    }
 }

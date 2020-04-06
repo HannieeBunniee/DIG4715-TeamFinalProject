@@ -9,7 +9,8 @@ public class HealthManager : MonoBehaviour
 
     public HealthBar healthBar;
 
-    public GameObject loseScreen, winScreen, gameUI;
+    public GameObject gameUI;
+    public GameObject winScreen, loseScreen;
     private bool death = false;
     private float iFrames;
 
