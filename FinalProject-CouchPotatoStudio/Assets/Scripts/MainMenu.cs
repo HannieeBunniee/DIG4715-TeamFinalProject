@@ -14,6 +14,8 @@ public class MainMenu : MonoBehaviour
         {
             continueButton.interactable = false;
         }
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     }
 
     void Update()

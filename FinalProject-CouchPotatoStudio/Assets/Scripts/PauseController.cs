@@ -54,6 +54,7 @@ public class PauseController : MonoBehaviour
     {
         Debug.Log("Loading Main Menu");
         Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
         SceneManager.LoadScene("MainMenu");
     }
 

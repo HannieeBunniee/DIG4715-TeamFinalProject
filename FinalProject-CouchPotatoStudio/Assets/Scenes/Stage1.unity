@@ -33277,8 +33277,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1495557005}
-        m_MethodName: LoadStage
+      - m_Target: {fileID: 223084793}
+        m_MethodName: LoadMainMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -45539,7 +45539,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Return to Hub
+  m_Text: Return to Main Menu
 --- !u!222 &1772449145
 CanvasRenderer:
   m_ObjectHideFlags: 0
