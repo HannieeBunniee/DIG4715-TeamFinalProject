@@ -8,14 +8,8 @@ public class MainMenu : MonoBehaviour
 {
     public UnityEngine.UI.Button continueButton;
 
-	public AudioSource musicSource;
-    public AudioClip backgroundAudio;
-
     void Start()
     {
-        musicSource.clip = backgroundAudio;
-        musicSource.Play();
-		
 		if (PlayerPrefs.GetInt("save",0) == 0) //if there is no save data, disable the continue button
         {
             continueButton.interactable = false;

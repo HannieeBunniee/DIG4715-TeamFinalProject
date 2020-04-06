@@ -39,6 +39,7 @@ public class PlayerMovement : MonoBehaviour
     private GameObject dashTarget;
     public UnityEngine.UI.Image dashReticle;
     public GameObject dashHitbox;
+    private HealthManager healthMan;
 
     public Animator animator;
     private PlayerSoundManager soundMan;
@@ -47,6 +48,7 @@ public class PlayerMovement : MonoBehaviour
     {
         mainCam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         soundMan = GetComponent<PlayerSoundManager>();
+        healthMan = GetComponent<HealthManager>();
     }
     // Update is called once per frame
     void Update()
@@ -84,6 +86,7 @@ public class PlayerMovement : MonoBehaviour
             soundMan.PlayEffortSound(1);
             transform.rotation = Quaternion.LookRotation(dashTarget.transform.position - transform.position);
             transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
+            healthMan.iFrames = Time.time + 99;
         }
         if (dashing)
         {
@@ -95,6 +98,7 @@ public class PlayerMovement : MonoBehaviour
                 dashReticle.color = new Color(1, 1, 1, 0);
                 dashing = false;
                 airTime = Time.time + 0.25f + PlayerPrefs.GetInt("EasyDash", 0);
+                healthMan.iFrames = Time.time + 0.5f;
             }
             if (dashing)
             {
@@ -162,16 +166,14 @@ public class PlayerMovement : MonoBehaviour
         {
             attacking = true;
             animator.SetInteger("Attacking", comboState + 1);
-            soundMan.PlayEffortSound(2);
-            soundMan.PlaySwordSound(false);
             if (comboState == 0)
             {
                 comboState++;
-                comboTime = Time.time + 0.35f;
+                comboTime = Time.time + 0.5f;
             }
             else if (comboState == 1)
             {
-                comboTime += 0.35f;
+                comboTime += 0.5f;
                 comboState++;
             }
             else if (comboState == 2)
@@ -183,6 +185,14 @@ public class PlayerMovement : MonoBehaviour
         }
 
         Vector3 move = transform.right * x + transform.forward * z;
+        if (Mathf.Abs(x) > 0.25f || Mathf.Abs(z) > 0.25f)
+        {
+            animator.SetBool("Moving", true);
+        }
+        else
+        {
+            animator.SetBool("Moving", false);
+        }
         controller.Move(move * speed * Time.deltaTime);
 
         //========Jumping code============
@@ -202,7 +212,12 @@ public class PlayerMovement : MonoBehaviour
         }
         if (isGrounded)
         {
+            animator.SetBool("Grounded", true);
             lastSafePosition = transform.position;
+        }
+        else
+        {
+            animator.SetBool("Grounded", false);
         }
         if ((isGrounded && velocity.y < 0) || wallRunning)
         {
@@ -217,6 +232,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (Input.GetButtonDown("Jump") && (isGrounded || doubleJump)) //code for jump
             {
+                animator.SetTrigger("Jump");
                 soundMan.PlayEffortSound(0);
                 if (isGrounded) //use the first jump
                 {
@@ -420,5 +436,11 @@ public class PlayerMovement : MonoBehaviour
                 controller.Move(slideDirection.normalized * Time.deltaTime);
             }
         }
+    }
+
+    public void PlayAttackSound()
+    {
+        soundMan.PlayEffortSound(2);
+        soundMan.PlaySwordSound(false);
     }
 }

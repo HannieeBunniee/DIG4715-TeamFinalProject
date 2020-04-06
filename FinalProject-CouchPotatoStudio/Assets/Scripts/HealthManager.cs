@@ -11,12 +11,14 @@ public class HealthManager : MonoBehaviour
 
     public GameObject gameUI;
     public GameObject winScreen, loseScreen;
+    private Animator animator;
     private bool death = false;
-    private float iFrames;
+    public float iFrames;
 
     //====Start====
     void Start()
     {
+        animator = GetComponent<Animator>();
         currentHealth = maxHealth;
         healthBar.SetPlayerHealth(maxHealth);
     }
@@ -55,6 +57,7 @@ public class HealthManager : MonoBehaviour
     //====Function====
     void TakeDamage(int damage)
     {
+        animator.SetTrigger("Damage");
         currentHealth -= damage;
         healthBar.SetPlayerHealth(currentHealth);
         iFrames = Time.time + 0.25f;
