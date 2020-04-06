@@ -901,4 +901,4 @@ ScriptsOnlyBuild:
   scenePathNames:
   - Assets/Scenes/MainMenu.unity
   - Assets/Scenes/Stage1.unity
-  playerPath: C:/Users/Gerald/Documents/Github/DIG4715-TeamFinalProject/FinalProject-CouchPotatoStudio/Build/FinalProject-CouchPotato.exe
+  playerPath: D:/Documents/Githubs/DIG4715-TeamFinalProject/FinalProject-CouchPotatoStudio/Build/FinalProject-CouchPotato.exe
