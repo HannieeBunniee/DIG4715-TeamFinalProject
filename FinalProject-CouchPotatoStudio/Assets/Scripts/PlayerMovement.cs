@@ -193,6 +193,14 @@ public class PlayerMovement : MonoBehaviour
         {
             animator.SetBool("Moving", false);
         }
+        if (!wallRunning && !dashing)
+        {
+            transform.GetChild(0).localRotation = Quaternion.Euler(0, Vector3.Angle(Vector3.forward, new Vector3(x, 0, z)) * Mathf.Sign(x), 0);
+        }
+        else if (wallRunning || dashing)
+        {
+            transform.GetChild(0).localRotation = Quaternion.Euler(0, 0, 0);
+        }
         controller.Move(move * speed * Time.deltaTime);
 
         //========Jumping code============

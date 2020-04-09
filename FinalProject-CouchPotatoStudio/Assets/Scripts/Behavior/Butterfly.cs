@@ -7,6 +7,7 @@ public class Butterfly : MonoBehaviour
     private bool attackMode = false;
     private PlayerMovement player;
     private Rigidbody body;
+    public float turn, speed, detectionRange;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,7 +24,7 @@ public class Butterfly : MonoBehaviour
 
     void Update()
     {
-        if (Vector3.Distance(transform.position, player.transform.position) < 30)
+        if (Vector3.Distance(transform.position, player.transform.position) < detectionRange)
         {
             attackMode = true;
         }
@@ -33,17 +34,23 @@ public class Butterfly : MonoBehaviour
     {
         if (attackMode)
         {
-            transform.LookAt(Vector3.Lerp(transform.forward, player.transform.position, 0.4f));
-            body.AddForce(transform.forward * 20);
+            transform.LookAt(Vector3.Lerp(transform.position + transform.forward, player.transform.position, 0.05f * Time.deltaTime));
+            Debug.DrawLine(transform.position, player.transform.position);
+            body.velocity = transform.forward * speed;
         }
         else
         {
-            transform.Rotate(new Vector3(0, 60 * Time.deltaTime, 0));
-            body.AddForce(transform.forward * 20);
+            transform.Rotate(new Vector3(0, turn * Time.deltaTime, 0));
+            body.velocity = transform.forward * speed;
         }
-        if (body.velocity.magnitude > 15)
+        if (body.velocity.magnitude > speed)
         {
-            body.velocity *= 15 / body.velocity.magnitude;
+            body.velocity = body.velocity.normalized * speed;
         }
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        transform.Rotate(0, 180, 0);
     }
 }
