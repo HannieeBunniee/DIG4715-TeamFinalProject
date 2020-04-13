@@ -19,6 +19,7 @@ public class PlayerMovement : MonoBehaviour
     public Vector3 velocity;
     public Vector3 lastSafePosition;
     private bool isGrounded, doubleJump = true;
+    private int fallAnimDelay = 0;
     private bool wallRunning = false;
     private float wallRunDelay;
     private Transform lastWallrun;
@@ -86,7 +87,10 @@ public class PlayerMovement : MonoBehaviour
             soundMan.PlayEffortSound(1);
             transform.rotation = Quaternion.LookRotation(dashTarget.transform.position - transform.position);
             transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
-            healthMan.iFrames = Time.time + 99;
+            if (healthMan != null)
+            {
+                healthMan.iFrames = Time.time + 99;
+            }
         }
         if (dashing)
         {
@@ -98,7 +102,10 @@ public class PlayerMovement : MonoBehaviour
                 dashReticle.color = new Color(1, 1, 1, 0);
                 dashing = false;
                 airTime = Time.time + 0.25f + PlayerPrefs.GetInt("EasyDash", 0);
-                healthMan.iFrames = Time.time + 0.5f;
+                if (healthMan != null)
+                {
+                    healthMan.iFrames = Time.time + 0.5f;
+                }
             }
             if (dashing)
             {
@@ -169,7 +176,7 @@ public class PlayerMovement : MonoBehaviour
             if (comboState == 0)
             {
                 comboState++;
-                comboTime = Time.time + 0.5f;
+                comboTime = Time.time + 0.45f;
             }
             else if (comboState == 1)
             {
@@ -178,8 +185,8 @@ public class PlayerMovement : MonoBehaviour
             }
             else if (comboState == 2)
             {
-                comboTime += 0.66f;
-                attackCooldown = Time.time + 0.75f;
+                comboTime += 1f;
+                attackCooldown = Time.time + 0.25f;
                 comboState = 0;
             }
         }
@@ -193,7 +200,7 @@ public class PlayerMovement : MonoBehaviour
         {
             animator.SetBool("Moving", false);
         }
-        if (!wallRunning && !dashing)
+        if (!wallRunning && !dashing && (Mathf.Abs(x) > 0.1f || Mathf.Abs(z) > 0.1f))
         {
             transform.GetChild(0).localRotation = Quaternion.Euler(0, Vector3.Angle(Vector3.forward, new Vector3(x, 0, z)) * Mathf.Sign(x), 0);
         }
@@ -220,12 +227,17 @@ public class PlayerMovement : MonoBehaviour
         }
         if (isGrounded)
         {
+            fallAnimDelay = 0;
             animator.SetBool("Grounded", true);
             lastSafePosition = transform.position;
         }
         else
         {
-            animator.SetBool("Grounded", false);
+            fallAnimDelay++;
+            if (fallAnimDelay > 14)
+            {
+                animator.SetBool("Grounded", false);
+            }
         }
         if ((isGrounded && velocity.y < 0) || wallRunning)
         {

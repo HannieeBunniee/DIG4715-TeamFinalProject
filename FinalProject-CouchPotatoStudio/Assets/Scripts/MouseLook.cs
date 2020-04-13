@@ -15,6 +15,8 @@ public class MouseLook : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        xRotation = parent.localRotation.eulerAngles.x;
+        yRotation = parent.localRotation.eulerAngles.y;
         Cursor.visible = false; //setting cursor visible or not
         Cursor.lockState = CursorLockMode.Locked; // freeze the cursor in middle of the screen so it wont move
     }

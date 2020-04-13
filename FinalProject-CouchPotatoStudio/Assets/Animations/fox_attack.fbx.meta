@@ -45,7 +45,7 @@ ModelImporter:
       name: Attack1
       takeName: Take 001
       internalID: 0
-      firstFrame: 0
+      firstFrame: 1
       lastFrame: 30
       wrapMode: 0
       orientationOffsetY: 0
@@ -66,7 +66,7 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0
+      - time: 0.003875969
         functionName: PlayAttackSound
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 9d4ad8877b0fb5b43a9c831f8b5e07df,
@@ -77,7 +77,7 @@ ModelImporter:
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
+      additiveReferencePoseFrame: 1
     - serializedVersion: 16
       name: Attack2
       takeName: Take 001
@@ -120,7 +120,7 @@ ModelImporter:
       takeName: Take 001
       internalID: 0
       firstFrame: 61
-      lastFrame: 105
+      lastFrame: 120
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
