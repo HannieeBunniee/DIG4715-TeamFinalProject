@@ -41,6 +41,7 @@ public class PlayerMovement : MonoBehaviour
     public UnityEngine.UI.Image dashReticle;
     public GameObject dashHitbox;
     private HealthManager healthMan;
+    public bool controlsLocked = false;
 
     public Animator animator;
     private PlayerSoundManager soundMan;
@@ -79,8 +80,9 @@ public class PlayerMovement : MonoBehaviour
             dashRetargetCooldown = 0;
         }
 
-        if (Input.GetButtonDown("Dash") && dashTarget != null && !wallRunning)
+        if (Input.GetButtonDown("Dash") && dashTarget != null && !wallRunning && !controlsLocked)
         {
+            animator.SetBool("Dashing", true);
             dashing = true;
             dashHitbox.SetActive(true);
             soundMan.PlaySwordSound(true);
@@ -96,6 +98,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (Vector3.Distance(transform.position, dashTarget.transform.position) <= dashTarget.GetComponent<DashTarget>().stopRadius)
             {
+                animator.SetBool("Dashing", false);
                 dashHitbox.SetActive(false);
                 dashTarget.GetComponent<DashTarget>().cooldown = Time.time + 2.5f;
                 dashTarget = null;
@@ -118,7 +121,7 @@ public class PlayerMovement : MonoBehaviour
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
 
-        if (dashing) //if the player is dashing they cannot move until the dash is finished
+        if (dashing || controlsLocked) //if the player is dashing they cannot move until the dash is finished; if the controls are locked the player cannot move
         {
             x = 0;
             z = 0;
@@ -131,11 +134,12 @@ public class PlayerMovement : MonoBehaviour
         if (wallRunning && wallRunDelay < Time.time) //if the player has not moved for more than half a second on a wall they will stop wallrunning
         {
             wallRunning = false;
+            animator.SetBool("Wallrun", false);
             wallRunDelay = Time.time + 0.5f;
         }
 
         //rotate the player to the same direction as the camera when they move if they are not wallrunning or dashing
-        if ((Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0) && !wallRunning && !dashing)
+        if ((Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0) && !wallRunning && !dashing && !controlsLocked)
         {
             transform.localRotation = Quaternion.Euler(0, mainCamera.transform.parent.localRotation.eulerAngles.y, 0);
         }
@@ -169,7 +173,7 @@ public class PlayerMovement : MonoBehaviour
             comboState = 0;
             animator.SetInteger("Attacking", 0);
         }
-        if (Input.GetButtonDown("Attack") && attackCooldown < Time.time && !dashing && !wallRunning)
+        if (Input.GetButtonDown("Attack") && attackCooldown < Time.time && !dashing && !wallRunning && !controlsLocked)
         {
             attacking = true;
             animator.SetInteger("Attacking", comboState + 1);
@@ -250,7 +254,7 @@ public class PlayerMovement : MonoBehaviour
         }
         if (!wallRunning && !dashing)
         {
-            if (Input.GetButtonDown("Jump") && (isGrounded || doubleJump)) //code for jump
+            if (Input.GetButtonDown("Jump") && (isGrounded || doubleJump) && !controlsLocked) //code for jump
             {
                 animator.SetTrigger("Jump");
                 soundMan.PlayEffortSound(0);
@@ -277,11 +281,12 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (!dashing)
         {
-            if (Input.GetButtonDown("Jump")) //wall jump
+            if (Input.GetButtonDown("Jump") && !controlsLocked) //wall jump
             {
                 soundMan.PlayEffortSound(0);
                 wallRunning = false;
                 wallRunDelay = Time.time + 0.25f;
+                animator.SetBool("Wallrun", false);
                 airTime = 0f;
                 velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
                 velocity += transform.right * (jumpHeight * -5 * Mathf.Sign(transform.InverseTransformPoint(lastWallrun.position).x));
@@ -339,6 +344,15 @@ public class PlayerMovement : MonoBehaviour
             {
                 transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, collider.transform.rotation.eulerAngles.y + 180, transform.rotation.eulerAngles.z);
             }
+            if (transform.InverseTransformPoint(collider.transform.position).x > 0)
+            {
+                animator.SetBool("WallrunSide", false);
+            }
+            else
+            {
+                animator.SetBool("WallrunSide", true);
+            }
+            animator.SetBool("Wallrun", true);
             wallRunning = true;
             wallRunDelay = Time.time + 0.5f;
             lastWallrun = collider.transform;
@@ -352,6 +366,7 @@ public class PlayerMovement : MonoBehaviour
         if (collider.CompareTag("Wallrun") && wallRunning)
         {
             wallRunning = false;
+            animator.SetBool("Wallrun", false);
             wallRunDelay = Time.time + 0.25f;
         }
     }
