@@ -27,6 +27,11 @@ public class EnemyController : MonoBehaviour
     {
         if (health < 1)
         {
+            Stage2ProgressManager stage2;
+            if (player.gameObject.TryGetComponent<Stage2ProgressManager>(out stage2))
+            {
+                stage2.enemies++;
+            }
             Destroy(gameObject);
         }
     }
