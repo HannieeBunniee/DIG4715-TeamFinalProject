@@ -23662,7 +23662,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d4ad8877b0fb5b43a9c831f8b5e07df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainCamera: {fileID: 1086772007}
+  mainCamera: {fileID: 1987484393}
   controller: {fileID: 1614978270}
   speed: 20
   gravity: -100
@@ -30910,7 +30910,7 @@ MonoBehaviour:
   mouseSensitivity: 100
   zoom: 8
   parent: {fileID: 1086772008}
-  player: {fileID: 894055358}
+  player: {fileID: 1614978272}
   cameraLocked: 0
   freeCameraMode: 0
   gameUI: {fileID: 0}
