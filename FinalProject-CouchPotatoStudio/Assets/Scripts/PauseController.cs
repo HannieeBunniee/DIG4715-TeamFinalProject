@@ -52,6 +52,12 @@ public class PauseController : MonoBehaviour
 
     public void LoadMainMenu()
     {
+        delay = Time.unscaledTime;
+        gameUI.SetActive(true);
+        pauseMenuUI.SetActive(false);
+        optionUI.SetActive(false);
+        Time.timeScale = 1f; //unfreeze the game
+        Paused = false;
         Debug.Log("Loading Main Menu");
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;

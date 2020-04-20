@@ -32,12 +32,13 @@ public class StageLoader : MonoBehaviour
                     PlayerPrefs.SetInt("stage1", 1);
                     break;
                 case 2:
-                    PlayerPrefs.SetInt("stage2", 2);
+                    PlayerPrefs.SetInt("stage2", 1);
                     break;
                 case 3:
-                    PlayerPrefs.SetInt("stage3", 3);
+                    PlayerPrefs.SetInt("stage3", 1);
                     break;
             }
+            PlayerPrefs.SetInt("save", 1);
         }
         PlayerPrefs.SetInt("lastStage", currentStage); //set the previous stage visited to the current stage, allowing different spawn points when re-entering the hub
         switch (destination) //load the destination level

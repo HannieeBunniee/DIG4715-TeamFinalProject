@@ -96,7 +96,7 @@ public class PlayerMovement : MonoBehaviour
         }
         if (dashing)
         {
-            if (Vector3.Distance(transform.position, dashTarget.transform.position) <= dashTarget.GetComponent<DashTarget>().stopRadius)
+            if (Vector3.Distance(transform.position, dashTarget.transform.position) <= dashTarget.GetComponent<DashTarget>().stopRadius || dashTarget == null)
             {
                 animator.SetBool("Dashing", false);
                 dashHitbox.SetActive(false);
