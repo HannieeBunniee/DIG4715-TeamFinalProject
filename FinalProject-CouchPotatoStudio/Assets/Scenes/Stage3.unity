@@ -32606,7 +32606,7 @@ MonoBehaviour:
   mouseSensitivity: 100
   zoom: 8
   parent: {fileID: 1086772008}
-  player: {fileID: 894055358}
+  player: {fileID: 1614978272}
   cameraLocked: 0
   freeCameraMode: 0
   gameUI: {fileID: 0}
