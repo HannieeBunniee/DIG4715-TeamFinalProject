@@ -21390,7 +21390,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "Hanniee Tran, Jediel Melendez, \n             Ryan Witherow "
+  m_Text: "Hanniee Tran, Jediel Melendez, \nRyan Witherow, Dyland Cervenak"
 --- !u!222 &554260682
 CanvasRenderer:
   m_ObjectHideFlags: 0
