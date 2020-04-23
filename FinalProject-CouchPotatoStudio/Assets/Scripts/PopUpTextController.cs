@@ -62,7 +62,7 @@ public class PopUpTextController : MonoBehaviour
 
     IEnumerator FadeOutText()
     {
-        for (float i = textPanel.color.a; i > 0.00f; i -= 0.02f)
+        for (float i = textPanel.color.a; i > 0.00f; i -= 0.01f)
         {
             textPanel.color = new Color(0, 0, 0, i);
             uiText.color = new Color(1, 1, 1, i);
